@@ -133,10 +133,10 @@ func (suite *DSEntTestSuite) SetupSuite() {
 	client, err := datastore.NewClient(ctx, "")
 	suite.Require().NoError(err)
 
-	entity := NewDSEnt[*exampleObj](client, namespace)
+	entity := NewDSEnt[*exampleObj](client, namespace, "Test")
 	suite.DSEnt = entity
-	suite.dropMissing = NewDSEnt[*objDropMissingKey](client, namespace)
-	suite.keepMissing = NewDSEnt[*objKeepMissingKey](client, namespace)
+	suite.dropMissing = NewDSEnt[*objDropMissingKey](client, namespace, "Test")
+	suite.keepMissing = NewDSEnt[*objKeepMissingKey](client, namespace, "Test")
 
 	_, err = suite.purge(ctx)
 	suite.Require().NoError(err)

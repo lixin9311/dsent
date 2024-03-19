@@ -32,13 +32,15 @@ type Object interface {
 type DSEnt[T Object] struct {
 	*datastore.Client
 	namespace string
+	kind      string
 }
 
 // NewDSEnt creates a new instance of DSEnt with the given Datastore client and namespace.
-func NewDSEnt[T Object](client *datastore.Client, ns string) *DSEnt[T] {
+func NewDSEnt[T Object](client *datastore.Client, ns string, kind string) *DSEnt[T] {
 	return &DSEnt[T]{
 		Client:    client,
 		namespace: ns,
+		kind:      kind,
 	}
 }
 
@@ -420,4 +422,8 @@ func (db *DSEnt[T]) Close() {
 
 func (db *DSEnt[T]) Namespace() string {
 	return db.namespace
+}
+
+func (db *DSEnt[T]) NewQuery() *datastore.Query {
+	return datastore.NewQuery(db.kind).Namespace(db.namespace)
 }
